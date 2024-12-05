@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Приветствие и площадь треугольника</title>
+  <script>
+    // Функция для форматирования текущей даты и времени
+    function displayGreeting() {
+      const days = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+      const months = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+      
+      const now = new Date();
+      const day = now.getDate();
+      const month = months[now.getMonth()];
+      const year = now.getFullYear();
+      const hour = now.getHours().toString().padStart(2, '0');
+      const minute = now.getMinutes().toString().padStart(2, '0');
+      const second = now.getSeconds().toString().padStart(2, '0');
+      const weekday = days[now.getDay()];
+
+      document.getElementById('greeting').textContent = `Сегодня - ${day} ${month} ${year} года, ${hour}:${minute}:${second}, ${weekday}`;
+    }
+
+    // Функция для вычисления площади треугольника
+    function calculateArea(event) {
+      event.preventDefault(); // Предотвращаем отправку формы
+      const sideA = parseFloat(document.getElementById('sideA').value);
+      const sideB = parseFloat(document.getElementById('sideB').value);
+      const angle = parseFloat(document.getElementById('angle').value);
+
+      if (isNaN(sideA) || isNaN(sideB) || isNaN(angle) || sideA <= 0 || sideB <= 0 || angle <= 0 || angle >= 180) {
+        alert('Введите корректные данные!');
+        return;
+      }
+
+      const angleInRadians = (angle * Math.PI) / 180; // Перевод угла в радианы
+      const area = 0.5 * sideA * sideB * Math.sin(angleInRadians);
+
+      document.getElementById('result').textContent = `Площадь треугольника: ${area.toFixed(2)} квадратных единиц.`;
+    }
+
+    // Устанавливаем таймер для обновления времени каждую секунду
+    setInterval(displayGreeting, 1000);
+  </script>
+</head>
+<body onload="displayGreeting()">
+  <h1 id="greeting"></h1>
+  <form onsubmit="calculateArea(event)">
+    <h2>Вычисление площади треугольника</h2>
+    <label for="sideA">Сторона A:</label>
+    <input type="number" id="sideA" required><br><br>
+    <label for="sideB">Сторона B:</label>
+    <input type="number" id="sideB" required><br><br>
+    <label for="angle">Угол между сторонами (в градусах):</label>
+    <input type="number" id="angle" required><br><br>
+    <button type="submit">Вычислить</button>
+  </form>
+  <p id="result"></p>
+</body>
+</html>
